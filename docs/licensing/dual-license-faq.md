@@ -6,19 +6,19 @@
 
 ## Overview
 
-NSS v3.1.1 uses a dual-license model: AGPL-3.0 for open-source use and a commercial license for proprietary/closed-source deployments. This FAQ answers the most common licensing questions.
+NSS v3.1.1 uses a dual-license model: AGPL-3.0-or-later for open-source use and a commercial license for proprietary/closed-source deployments. This FAQ answers the most common licensing questions.
 
 ---
 
 ## Frequently Asked Questions
 
-### What is the AGPL-3.0 license?
+### What is the AGPL-3.0-or-later license?
 
-The GNU Affero General Public License v3.0 (AGPL-3.0) is a copyleft open-source license. It grants you the freedom to use, modify, and distribute the software, with the condition that any modified versions -- including those accessed over a network (e.g., as a web service) -- must also be released under the AGPL-3.0 with full source code.
+The GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later) is a copyleft open-source license. It grants you the freedom to use, modify, and distribute the software, with the condition that any modified versions -- including those accessed over a network (e.g., as a web service) -- must also be released under AGPL terms with full source code.
 
-### Who can use NSS for free under AGPL-3.0?
+### Who can use NSS for free under AGPL-3.0-or-later?
 
-The AGPL-3.0 license allows free use for:
+The AGPL-3.0-or-later license allows free use for:
 
 - **Individuals** -- unlimited personal use
 - **Open-source projects** -- must be GPL-compatible
@@ -34,7 +34,7 @@ You need a commercial license if:
 - Your company uses NSS in **closed-source software**
 - You operate NSS as part of a **SaaS product** and do not want to open-source your code
 - You embed NSS in **proprietary embedded systems**
-- You cannot or do not want to comply with AGPL-3.0 source code disclosure requirements
+- You cannot or do not want to comply with AGPL-3.0-or-later source code disclosure requirements
 
 ### What are the commercial license pricing tiers?
 
@@ -61,7 +61,7 @@ There are no license conflicts and no additional licensing costs for dependencie
 
 ### Can I use NSS in my SaaS product?
 
-**Under AGPL-3.0:** Yes, but you must release the source code of your entire application (including modifications to NSS) under the AGPL-3.0. This means your SaaS product's code would need to be open-sourced.
+**Under AGPL-3.0-or-later:** Yes, but you must release the source code of your entire application (including modifications to NSS) under AGPL terms. This means your SaaS product's code would need to be open-sourced.
 
 **Under the commercial license:** Yes, without any source code disclosure requirement. This is the recommended option for SaaS companies that want to keep their code proprietary.
 
@@ -91,7 +91,7 @@ Note: The ROI calculation includes the full GDPR compliance, Cloud Act risk elim
 
 ### Can I contribute back to NSS under the commercial license?
 
-Yes. Contributions are welcome regardless of your license type. Contributions to the open-source repository are made under the AGPL-3.0, following the project's contribution guidelines.
+Yes. Contributions are welcome regardless of your license type. Contributions to the open-source repository are made under AGPL-3.0-or-later terms, following the project's contribution guidelines.
 
 ### How do I obtain a commercial license?
 

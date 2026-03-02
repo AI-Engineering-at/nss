@@ -665,7 +665,7 @@ vs. OpenAI: **1.663€/month** → **21% cheaper** ✅
 
 ### 8.1 Dual-License Model
 
-#### AGPL-3.0 (Open Source)
+#### AGPL-3.0-or-later (Open Source)
 
 **Kostenlos für:**
 - ✅ Privatpersonen (unbegrenzt)
@@ -891,7 +891,7 @@ spec:
 
 **Empfehlung:** ✅ NSS v3.1.1 (AGPL)
 - **Kosten:** 0€ (nur Infrastructure)
-- **Lizenz:** AGPL-3.0 (Open Source) ✅
+- **Lizenz:** AGPL-3.0-or-later (Open Source) ✅
 - **Community:** Active Development ✅
 
 #### Szenario D: High-Performance Echtzeit (< 200ms)
@@ -1033,8 +1033,8 @@ Nächste Security Review: Mai 2026
 ### 📞 Support & Kontakt
 
 **Community Support:**
-- GitHub Issues: https://github.com/LEEI1337/NSS/issues
-- GitHub Discussions: https://github.com/LEEI1337/NSS/discussions
+- GitHub Issues: https://github.com/LEEI1337/NSS-v3.1.1/issues
+- Feature Requests: https://github.com/LEEI1337/NSS-v3.1.1/issues/new?template=feature_request.yml
 
 
 **Commercial License Support:**

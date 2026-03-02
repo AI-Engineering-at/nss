@@ -1,4 +1,4 @@
-# ADR-001: AGPL-3.0 License Choice
+# ADR-001: AGPL-3.0-or-later License Choice
 
 ## Status
 
@@ -17,7 +17,7 @@ Use AGPL-3.0-or-later as the primary license with a commercial dual-license opti
 - **Copyleft protection**: AGPL ensures modifications to NSS remain open source, preventing vendor lock-in
 - **Network use clause**: AGPL Section 13 requires source disclosure for SaaS deployments, critical for AI infrastructure
 - **EU alignment**: Strong copyleft aligns with European digital sovereignty goals
-- **Commercial viability**: Dual-license model (AGPL + Commercial) allows enterprises to use NSS without copyleft obligations via commercial license
+- **Commercial viability**: Dual-license model (AGPL-3.0-or-later + Commercial) allows enterprises to use NSS without copyleft obligations via commercial license
 - **Community building**: AGPL encourages contribution back to the standard
 
 ## Alternatives Considered

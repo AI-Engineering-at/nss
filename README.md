@@ -1,6 +1,6 @@
 # NSS - Nexus Sovereign Standard v3.1.1
 
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE)
+[![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![GDPR](https://img.shields.io/badge/GDPR-98%2F100%20(Self--Assessed)-yellow.svg)](#compliance-ratings)
 [![EU AI Act](https://img.shields.io/badge/EU%20AI%20Act-96%2F100%20(Self--Assessed)-yellow.svg)](#compliance-ratings)
 [![Version](https://img.shields.io/badge/Version-3.1.1-blue.svg)](https://github.com/LEEI1337/NSS/releases)
@@ -195,7 +195,7 @@ See [Port Schema](docs/architecture/port-schema.md) for network isolation and fi
 - **Vector Retention Policy** -- Automatic cleanup of expired vectors (configurable, default 90 days)
 - **Prometheus Metrics** -- OpenMetrics text format export for monitoring integration
 - **TLS 1.3 Ready** -- Optional TLS configuration for all microservices
-- **Open Source + Commercial Support** -- Dual-licensed under AGPL-3.0 and Commercial License
+- **Open Source + Commercial Support** -- Dual-licensed under AGPL-3.0-or-later and Commercial License
 
 ---
 
@@ -555,7 +555,7 @@ tests/
 
 NSS is dual-licensed:
 
-- **[AGPL-3.0](LICENSE)** -- For open-source use, research, and personal projects
+- **[AGPL-3.0-or-later](LICENSE)** -- For open-source use, research, and personal projects
 - **[Commercial License](LICENSE-COMMERCIAL.md)** -- For proprietary deployments and enterprise use
 
 If you use NSS in a proprietary product or service, you must obtain a commercial license. Contact for details.
@@ -592,8 +592,8 @@ For security-related information, please see our [Security Policy](SECURITY.md).
 
 | Channel | Contact |
 |---------|--------|
-| Bug Reports | [GitHub Issues](https://github.com/LEEI1337/NSS/issues) |
-| Discussions | [GitHub Discussions](https://github.com/LEEI1337/NSS/discussions) |
+| Bug Reports | [GitHub Issues](https://github.com/LEEI1337/NSS-v3.1.1/issues) |
+| Feature Requests | [Feature Request Template](https://github.com/LEEI1337/NSS-v3.1.1/issues/new?template=feature_request.yml) |
 
 
 ---

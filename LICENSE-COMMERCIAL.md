@@ -4,7 +4,7 @@
 
 NSS v3.1.1 is available under two licenses:
 
-### 1. AGPL-3.0 (Open Source)
+### 1. AGPL-3.0-or-later (Open Source)
 
 Free for:
 
@@ -13,7 +13,7 @@ Free for:
 - Research & Academia
 - Non-profit organizations
 
-Conditions: Source code disclosure required. Modifications must be under AGPL-3.0.
+Conditions: Source code disclosure required. Modifications must be under AGPL-3.0-or-later.
 
 ### 2. Commercial License
 
