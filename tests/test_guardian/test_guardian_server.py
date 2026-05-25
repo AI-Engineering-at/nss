@@ -1,8 +1,9 @@
 """Tests for Guardian Shield API server."""
 
+from unittest.mock import AsyncMock, MagicMock
+
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
 from nss.auth import create_token
 from nss.guardian.server import app
@@ -36,8 +37,8 @@ def _mock_guardian_components(monkeypatch):
         model_dump=lambda: {"is_safe": True, "confidence": 0.95, "method_results": {"rules": True, "llm": True, "embedding": True}, "consensus": "PASS"},
     ))
 
-    from nss.guardian.apex import APEXRouter
     from nss.config import NSSConfig
+    from nss.guardian.apex import APEXRouter
     mock_apex = APEXRouter(NSSConfig())
 
     monkeypatch.setattr(srv, "_ollama_client", mock_ollama)

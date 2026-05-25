@@ -34,20 +34,20 @@ class TracingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: Any) -> Response:
         trace_id = request.headers.get("X-Trace-ID", str(uuid.uuid4()))
         request.state.trace_id = trace_id
-        
+
         # Bind trace_id to structlog context for this request
         structlog.contextvars.bind_contextvars(trace_id=trace_id)
-        
+
         response = await call_next(request)
         response.headers["X-Trace-ID"] = trace_id
-        
+
         structlog.contextvars.unbind_contextvars("trace_id")
         return response
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Sliding-window rate limiter per client IP.
-    
+
     Args:
         app: The ASGI application.
         max_requests: Maximum requests per window.
@@ -73,17 +73,17 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         # Skip rate limiting for health checks
         if request.url.path in ("/health", "/metrics"):
             return await call_next(request)
-        
+
         client_ip = request.client.host if request.client else "unknown"
-        
+
         self._requests[client_ip] = self._prune(self._requests[client_ip])
-        
+
         if len(self._requests[client_ip]) >= self._max_requests:
             logger.warning("rate_limit_exceeded", client_ip=client_ip)
             return JSONResponse(
                 status_code=429,
                 content={"detail": "Rate limit exceeded. Try again later."},
             )
-        
+
         self._requests[client_ip].append(time.time())
         return await call_next(request)

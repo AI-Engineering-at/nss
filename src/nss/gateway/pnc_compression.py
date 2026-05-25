@@ -59,52 +59,52 @@ def compress(
     remove_fillers: bool = True,
 ) -> tuple[str, float, dict[str, Any]]:
     """Compress a prompt for efficient LLM processing.
-    
+
     Args:
         text: Input text to compress.
         max_tokens: Maximum approximate token budget.
         remove_fillers: Whether to strip filler words.
-        
+
     Returns:
         Tuple of (compressed_text, compression_ratio, metadata).
         compression_ratio is 1.0 - (compressed_len / original_len).
     """
     original_len = len(text)
-    
+
     if not text.strip():
         return text, 0.0, {"original_length": 0, "compressed_length": 0, "steps": []}
-    
+
     steps: list[str] = []
     result = text
-    
+
     # Step 1: Deduplicate repeated sentences
     deduped = _deduplicate_phrases(result)
     if deduped != result:
         steps.append("deduplication")
         result = deduped
-    
+
     # Step 2: Remove filler words
     if remove_fillers:
         cleaned = _remove_fillers(result)
         if cleaned != result:
             steps.append("filler_removal")
             result = cleaned
-    
+
     # Step 3: Token budget truncation
     truncated = _truncate_to_budget(result, max_tokens)
     if truncated != result:
         steps.append("truncation")
         result = truncated
-    
+
     compressed_len = len(result)
     ratio = 1.0 - (compressed_len / original_len) if original_len > 0 else 0.0
-    
+
     metadata = {
         "original_length": original_len,
         "compressed_length": compressed_len,
         "compression_ratio": round(ratio, 4),
         "steps": steps,
     }
-    
+
     logger.info("pnc_compression", **metadata)
     return result, ratio, metadata

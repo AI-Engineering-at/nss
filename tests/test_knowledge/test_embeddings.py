@@ -51,5 +51,5 @@ class TestEmbeddingService:
             sys.modules["sentence_transformers"].SentenceTransformer = MagicMock(
                 return_value=mock_model
             )
-            result = service.embed("trigger load")
+            service.embed("trigger load")
             assert service._model is not None

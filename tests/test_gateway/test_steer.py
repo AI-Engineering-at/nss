@@ -1,6 +1,6 @@
 """Tests for STEER transformation pipeline."""
 
-from nss.gateway.steer import steer_transform, detect_language, normalize_prompt
+from nss.gateway.steer import detect_language, normalize_prompt, steer_transform
 
 
 def test_detect_language_german() -> None:

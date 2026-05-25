@@ -1,7 +1,6 @@
 """Tests for Governance Plane API server."""
 
-import pytest
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
 from nss.auth import create_token
 from nss.governance.server import app

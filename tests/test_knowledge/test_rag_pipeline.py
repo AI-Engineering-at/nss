@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from typing import Any
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from nss.knowledge.rag_pipeline import RAGPipeline
 from nss.knowledge.sag_encryption import SAGEncryptor
-
 
 # -- Fixtures ----------------------------------------------------------------
 

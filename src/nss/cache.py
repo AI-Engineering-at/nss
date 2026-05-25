@@ -17,7 +17,7 @@ logger = structlog.get_logger(__name__)
 
 class CacheLayer:
     """Async Redis cache wrapper with graceful degradation.
-    
+
     Args:
         redis_url: Redis connection URL.
         key_prefix: Prefix for all cache keys.
@@ -49,7 +49,7 @@ class CacheLayer:
 
     async def get(self, layer: str, identifier: str) -> Any | None:
         """Retrieve a cached value.
-        
+
         Returns None on cache miss or if Redis is unavailable.
         """
         if not self._available or not self._client:

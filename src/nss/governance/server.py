@@ -16,10 +16,10 @@ from pydantic import BaseModel
 from nss.audit import AuditLogger
 from nss.auth import JWTMiddleware
 from nss.config import config
-from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.governance.dpia import DPIAGenerator
 from nss.governance.policy_engine import PolicyEngine
 from nss.governance.privacy_budget import PrivacyBudgetTracker
+from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.models import DPIAReport, PolicyDecision
 
 logger = structlog.get_logger(__name__)

@@ -1,6 +1,6 @@
 """Tests for Metrics API server."""
 
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
 from nss.metrics_server import app
 

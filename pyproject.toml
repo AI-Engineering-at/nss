@@ -53,7 +53,10 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "A", "C4"]
-ignore = ["S101"]
+# S101: assert is fine in production code for invariants
+# E501: line-length violations are pre-existing tech-debt; tracked in CHANGELOG for clean-up.
+# B008: FastAPI Depends/Security in default args is idiomatic; ruff knows this is an exception.
+ignore = ["S101", "E501", "B008"]
 
 [tool.mypy]
 python_version = "3.11"

@@ -6,16 +6,15 @@ DPIA generation, and privacy-tier enforcement work end-to-end.
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from nss.agent.dp_sparse_vote import dpsparsevote_rag, add_dp_noise
+from nss.agent.dp_sparse_vote import add_dp_noise, dpsparsevote_rag
 from nss.gateway.steer import steer_transform
 from nss.governance.dpia import DPIAGenerator
 from nss.governance.policy_engine import PolicyEngine
 from nss.governance.privacy_budget import PrivacyBudgetTracker
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -96,7 +95,7 @@ def test_dp_noise_changes_scores() -> None:
     noisy = add_dp_noise(scores, epsilon=1.0)
     assert len(noisy) == len(scores)
     # At least one score should differ (extremely unlikely all remain identical)
-    assert any(abs(n - o) > 1e-10 for n, o in zip(noisy, scores))
+    assert any(abs(n - o) > 1e-10 for n, o in zip(noisy, scores, strict=True))
 
 
 def test_dpia_generation_five_sections() -> None:

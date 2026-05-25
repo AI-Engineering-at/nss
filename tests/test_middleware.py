@@ -1,10 +1,10 @@
 """Tests for HTTP middleware (security headers, tracing, rate limiting)."""
 
 import pytest
-from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
+from httpx import ASGITransport, AsyncClient
 
-from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware, RateLimitMiddleware
+from nss.middleware import RateLimitMiddleware, SecurityHeadersMiddleware, TracingMiddleware
 
 
 def _make_app(max_requests: int = 5) -> FastAPI:

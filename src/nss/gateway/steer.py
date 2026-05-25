@@ -27,9 +27,9 @@ _PRIVACY_CONTEXT = {
 
 def detect_language(text: str) -> str:
     """Detect whether text is primarily German or English.
-    
+
     Uses a simple stopword frequency heuristic.
-    
+
     Returns:
         ISO 639-1 code: 'de' or 'en'.
     """
@@ -55,25 +55,25 @@ def steer_transform(
     metadata: dict[str, Any] | None = None,
 ) -> tuple[str, dict[str, Any]]:
     """Apply STEER transformation pipeline to a user message.
-    
+
     Steps:
         1. Detect language (DE/EN heuristic).
         2. Normalize prompt (whitespace, quotes).
         3. Inject privacy-tier context.
         4. Apply structured template.
-    
+
     Args:
         message: Raw user message.
         privacy_tier: Privacy tier (0-3, higher = more restrictive).
         metadata: Optional additional context.
-        
+
     Returns:
         Tuple of (transformed_message, steer_metadata).
     """
     language = detect_language(message)
     normalized = normalize_prompt(message)
     privacy_context = _PRIVACY_CONTEXT.get(privacy_tier, _PRIVACY_CONTEXT[0])
-    
+
     # Build structured prompt
     transformed = (
         f"[SYSTEM CONTEXT]\n"
@@ -83,7 +83,7 @@ def steer_transform(
         f"[END SYSTEM CONTEXT]\n\n"
         f"{normalized}"
     )
-    
+
     steer_metadata = {
         "language_detected": language,
         "privacy_tier": privacy_tier,
@@ -91,6 +91,6 @@ def steer_transform(
         "transformed_length": len(transformed),
         "normalization_applied": message != normalized,
     }
-    
+
     logger.info("steer_transform", **steer_metadata)
     return transformed, steer_metadata

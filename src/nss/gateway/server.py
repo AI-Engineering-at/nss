@@ -13,8 +13,9 @@ import asyncio
 import hashlib
 import time
 import uuid
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator
+from typing import Any
 
 import structlog
 import uvicorn
@@ -23,11 +24,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from nss import __version__
+from nss.agent.tool_isolation import ToolSandbox
 from nss.audit import AuditLogger
 from nss.auth import JWTMiddleware
 from nss.cache import CacheLayer
 from nss.config import config
-from nss.gateway.hmac_signing import sign_request, verify_request
+from nss.gateway.hmac_signing import verify_request
 from nss.gateway.pii_redaction import redact_pii
 from nss.gateway.pnc_compression import compress
 from nss.gateway.steer import steer_transform
@@ -38,7 +40,6 @@ from nss.guardian.apex import APEXRouter
 from nss.guardian.mars import MARSScorer
 from nss.guardian.sentinel import SentinelDefense
 from nss.guardian.shield import enhance_prompt
-from nss.agent.tool_isolation import ToolSandbox
 from nss.llm.ollama_client import OllamaClient
 from nss.metrics import (
     metrics_snapshot,
@@ -54,7 +55,7 @@ from nss.middleware import (
     SecurityHeadersMiddleware,
     TracingMiddleware,
 )
-from nss.models import NSSRequest, NSSResponse, ToolResult
+from nss.models import NSSRequest, NSSResponse
 
 logger = structlog.get_logger(__name__)
 

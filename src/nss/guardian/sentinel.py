@@ -59,7 +59,7 @@ _KNOWN_ATTACK_PATTERNS: list[str] = [
 
 def _cosine_similarity(a: list[float], b: list[float]) -> float:
     """Compute cosine similarity between two vectors."""
-    dot = sum(x * y for x, y in zip(a, b))
+    dot = sum(x * y for x, y in zip(a, b, strict=True))
     norm_a = sum(x * x for x in a) ** 0.5
     norm_b = sum(x * x for x in b) ** 0.5
     if norm_a == 0 or norm_b == 0:
@@ -122,18 +122,18 @@ class SentinelDefense:
         threshold: float = 0.75,
     ) -> bool:
         """Check text against known attack embeddings via cosine similarity.
-        
+
         Args:
             text: Input text to check.
             threshold: Cosine similarity threshold above which text is flagged.
-            
+
         Returns:
             True if text is similar to a known attack pattern.
         """
         try:
             embedder = EmbeddingService()
             text_embedding = embedder.embed(text)
-            
+
             for pattern in _KNOWN_ATTACK_PATTERNS:
                 pattern_embedding = embedder.embed(pattern)
                 similarity = _cosine_similarity(text_embedding, pattern_embedding)

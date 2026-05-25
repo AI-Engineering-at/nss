@@ -58,21 +58,21 @@ class DPIAGenerator:
         additional_context: dict[str, Any] | None = None,
     ) -> DPIAReport:
         """Generate a DPIA report.
-        
+
         Args:
             processing_activity: Description of the data processing.
             data_categories: Types of personal data involved.
             risk_tier: MARS risk tier (0-3).
             privacy_budget_remaining: Remaining epsilon budget.
             additional_context: Optional extra context.
-            
+
         Returns:
             A DPIAReport with all 5 required sections.
         """
         report_id = str(uuid.uuid4())
         risk_level = _RISK_LEVEL_MAP.get(risk_tier, "UNKNOWN")
         mitigations = _MITIGATION_MAP.get(risk_level, [])
-        
+
         sections = {
             "1_description": {
                 "title": "Description of Processing",
@@ -118,9 +118,9 @@ class DPIAGenerator:
                 ),
             },
         }
-        
+
         recommendation = "PROCEED" if risk_tier >= 2 else "REVIEW_REQUIRED"
-        
+
         report = DPIAReport(
             report_id=report_id,
             timestamp=int(time.time()),
@@ -128,27 +128,27 @@ class DPIAGenerator:
             risk_level=risk_level,
             recommendation=recommendation,
         )
-        
+
         logger.info("dpia_generated", report_id=report_id, risk_level=risk_level)
         return report
 
     def to_markdown(self, report: DPIAReport) -> str:
         """Render a DPIA report as Markdown.
-        
+
         Args:
             report: The DPIA report to render.
-            
+
         Returns:
             Markdown string.
         """
         lines = [
-            f"# Data Protection Impact Assessment (DPIA)",
+            "# Data Protection Impact Assessment (DPIA)",
             f"**Report ID:** {report.report_id}",
             f"**Risk Level:** {report.risk_level}",
             f"**Recommendation:** {report.recommendation}",
             "",
         ]
-        
+
         for key in sorted(report.sections.keys()):
             section = report.sections[key]
             lines.append(f"## {section['title']}")
@@ -160,5 +160,5 @@ class DPIAGenerator:
             if "recommendation" in section:
                 lines.append(f"**{section['recommendation']}**")
             lines.append("")
-        
+
         return "\n".join(lines)

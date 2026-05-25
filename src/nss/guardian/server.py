@@ -16,13 +16,13 @@ from pydantic import BaseModel
 
 from nss.auth import JWTMiddleware
 from nss.config import config
-from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.guardian.apex import APEXRouter
-from nss.guardian.mars import MARSScorer, classify_tier
+from nss.guardian.mars import MARSScorer
 from nss.guardian.sentinel import SentinelDefense
 from nss.guardian.shield import enhance_prompt
 from nss.guardian.vigil import check_tool_call
 from nss.llm.ollama_client import OllamaClient
+from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.models import APEXDecision, RiskScore, SentinelResult
 
 logger = structlog.get_logger(__name__)
