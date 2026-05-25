@@ -33,7 +33,7 @@ jobs:
         run: bandit -r src/nss/ -c pyproject.toml -ll
       - name: Upload bandit report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: bandit-report
           path: bandit-report.json
