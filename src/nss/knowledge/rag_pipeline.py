@@ -47,7 +47,9 @@ class RAGPipeline:
         decrypted ``payload`` keys.
         """
         embedding = self._embed.embed(query)
-        results = await self._vs.search(query_embedding=embedding, top_k=self._top_k)
+        results: list[dict[str, Any]] = await self._vs.search(
+            query_embedding=embedding, top_k=self._top_k
+        )
 
         # Decrypt payloads if encrypted
         for r in results:
