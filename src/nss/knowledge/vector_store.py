@@ -87,9 +87,11 @@ class VectorStore:
         Returns:
             List of dicts with ``id``, ``score``, and ``payload`` keys.
         """
-        results = self._client.search(
+        # qdrant-client >=1.13 deprecated/removed `search`; use `query_points`.
+        # Returns a QueryResponse whose `.points` is a list of ScoredPoint.
+        response = self._client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_embedding,
+            query=query_embedding,
             limit=top_k,
         )
         return [
@@ -98,7 +100,7 @@ class VectorStore:
                 "score": r.score,
                 "payload": r.payload or {},
             }
-            for r in results
+            for r in response.points
         ]
 
     async def upsert(

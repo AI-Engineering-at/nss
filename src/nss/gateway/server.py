@@ -425,7 +425,7 @@ async def tool_execute(request: Request, body: ToolExecRequest) -> dict[str, Any
 async def _fire_dpia(
     user_id: str,
     risk: Any,
-    entities: list,
+    entities: list[Any],
     audit_id: str,
 ) -> None:
     """Auto-generate DPIA for high-risk requests (risk_tier <= 1)."""

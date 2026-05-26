@@ -6,6 +6,7 @@ for the microservice architecture.
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -64,7 +65,7 @@ _apex_router: APEXRouter | None = None
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     global _ollama_client, _mars_scorer, _sentinel, _apex_router
     _ollama_client = OllamaClient(
         base_url=config.ollama_base_url,
