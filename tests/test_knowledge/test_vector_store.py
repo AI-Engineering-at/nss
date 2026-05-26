@@ -35,7 +35,9 @@ class TestVectorStore:
         mock_result.id = "doc-1"
         mock_result.score = 0.95
         mock_result.payload = {"text": "Sample document.", "user_id": "user-1"}
-        mock_qdrant_client.search.return_value = [mock_result]
+        mock_response = MagicMock()
+        mock_response.points = [mock_result]
+        mock_qdrant_client.query_points.return_value = mock_response
 
         results = await vector_store.search(query_embedding=[0.1] * 384, top_k=5)
 
@@ -46,7 +48,9 @@ class TestVectorStore:
 
     async def test_search_empty(self, vector_store, mock_qdrant_client) -> None:
         """search() should return an empty list when no results are found."""
-        mock_qdrant_client.search.return_value = []
+        mock_response = MagicMock()
+        mock_response.points = []
+        mock_qdrant_client.query_points.return_value = mock_response
 
         results = await vector_store.search(query_embedding=[0.1] * 384, top_k=5)
         assert results == []

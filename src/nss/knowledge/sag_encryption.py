@@ -84,4 +84,5 @@ class SAGEncryptor:
         aesgcm = AESGCM(self._key)
         plaintext = aesgcm.decrypt(nonce, ciphertext, None)
 
-        return json.loads(plaintext.decode())
+        decoded: dict[str, Any] = json.loads(plaintext.decode())
+        return decoded
