@@ -19,28 +19,28 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "fastapi>=0.115.0",
+    "fastapi>=0.136.3",
     "uvicorn[standard]>=0.44.0",
-    "pydantic>=2.13.0",
-    "pydantic-settings>=2.7.0",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.1",
     "ollama>=0.6.1",
     "qdrant-client>=1.17.1",
     "sentence-transformers>=3.3.0",
     "redis>=5.2.0",
     "cryptography>=44.0.0",
     "PyJWT>=2.12.1",
-    "httpx>=0.28.0",
-    "structlog>=24.4.0",
+    "httpx>=0.28.1",
+    "structlog>=25.5.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.3.0",
+    "pytest>=9.0.3",
     "pytest-asyncio>=0.24.0",
     "pytest-cov>=7.1.0",
     "ruff>=0.8.0",
     "mypy>=1.13.0",
-    "httpx>=0.28.0",
+    "httpx>=0.28.1",
 ]
 
 [tool.hatch.build.targets.wheel]

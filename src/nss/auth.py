@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import enum
 import time
+from collections.abc import Awaitable, Callable
 from typing import Any
 
 import jwt
@@ -111,7 +112,9 @@ class JWTMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
-def require_role(required_role: str):
+def require_role(
+    required_role: str,
+) -> Callable[[HTTPAuthorizationCredentials | None], Awaitable[dict[str, Any]]]:
     """FastAPI dependency that enforces a minimum role.
 
     Usage::
