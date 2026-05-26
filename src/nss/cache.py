@@ -34,7 +34,10 @@ class CacheLayer:
         try:
             import redis.asyncio as aioredis
             self._client = aioredis.from_url(self._redis_url, decode_responses=True)
-            await self._client.ping()
+            # redis-py async client returns Awaitable[bool] | bool; cast to satisfy mypy.
+            ping_result = self._client.ping()
+            if hasattr(ping_result, "__await__"):
+                await ping_result
             self._available = True
             logger.info("cache_connected", url=self._redis_url)
         except Exception:
