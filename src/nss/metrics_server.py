@@ -5,8 +5,11 @@ Lightweight server exposing NSS operational metrics.
 
 from __future__ import annotations
 
+from typing import Any
+
 import uvicorn
 from fastapi import FastAPI
+from starlette.responses import PlainTextResponse
 
 from nss.auth import JWTMiddleware
 from nss.config import config
@@ -29,18 +32,21 @@ async def health() -> dict[str, str]:
 
 
 @app.get("/metrics")
-async def metrics() -> dict:
+async def metrics() -> dict[str, Any]:
     return metrics_snapshot()
 
 
 @app.get("/metrics/prometheus")
-async def metrics_prometheus():
-    from starlette.responses import PlainTextResponse
+async def metrics_prometheus() -> PlainTextResponse:
     return PlainTextResponse(prometheus_export(), media_type="text/plain; version=0.0.4")
 
 
 if __name__ == "__main__":
-    kwargs = {}
+    # TLS kwargs are passed through unchanged to uvicorn.run.
+    # `Any` is correct here because uvicorn.run accepts heterogeneous kwargs
+    # (str paths for SSL files vs. mixed-type config); declaring `dict[str, str]`
+    # caused 11 false-positive arg-type errors against uvicorn's untyped **kwargs.
+    kwargs: dict[str, Any] = {}
     if config.tls_cert_path and config.tls_key_path:
         kwargs["ssl_certfile"] = config.tls_cert_path
         kwargs["ssl_keyfile"] = config.tls_key_path
