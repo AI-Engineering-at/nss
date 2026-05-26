@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from unittest.mock import patch
-
 import pytest
 from httpx import ASGITransport, AsyncClient
 
@@ -55,7 +53,7 @@ class TestUnlearningEndpoint:
 
     async def test_unlearn_logs_audit_event(self):
         """Unlearn endpoint creates an audit trail entry."""
-        from nss.gateway.server import app, _audit_logger
+        from nss.gateway.server import _audit_logger, app
 
         async with AsyncClient(
             transport=ASGITransport(app=app),

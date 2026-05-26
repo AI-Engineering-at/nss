@@ -1,6 +1,6 @@
 """Tests for SHIELD defensive token injection."""
 
-from nss.guardian.shield import enhance_prompt, PREPEND_TOKENS, APPEND_TOKENS
+from nss.guardian.shield import APPEND_TOKENS, PREPEND_TOKENS, enhance_prompt
 
 
 def test_enhance_prompt_adds_prepend() -> None:

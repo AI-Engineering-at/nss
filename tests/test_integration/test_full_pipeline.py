@@ -7,22 +7,18 @@ with audit trail, metrics tracking, and correct latency recording.
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 
 import pytest
-from httpx import ASGITransport, AsyncClient
 
 from nss.audit import AuditLogger
-from nss.gateway.hmac_signing import sign_request
 from nss.gateway.pii_redaction import redact_pii
 from nss.gateway.pnc_compression import compress
 from nss.gateway.steer import steer_transform
 from nss.guardian.mars import MARSScorer, classify_tier
 from nss.guardian.sentinel import SentinelDefense
-from nss.guardian.shield import enhance_prompt, PREPEND_TOKENS, APPEND_TOKENS
+from nss.guardian.shield import APPEND_TOKENS, PREPEND_TOKENS, enhance_prompt
 from nss.metrics import Counter, Histogram
-from nss.models import NSSRequest, RiskScore, SentinelResult
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -81,8 +77,8 @@ async def test_sentinel_then_mars_then_apex_pipeline() -> None:
     assert 0.0 <= risk.score <= 1.0
     assert risk.tier == classify_tier(risk.score)
 
-    from nss.guardian.apex import APEXRouter
     from nss.config import NSSConfig
+    from nss.guardian.apex import APEXRouter
 
     apex = APEXRouter(NSSConfig())
     decision = apex.select_model("What is quantum computing?", result.confidence, 1.0)

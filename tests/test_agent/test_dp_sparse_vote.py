@@ -1,6 +1,6 @@
 """Tests for the DPSparseVoteRAG privacy-preserving retrieval pipeline."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -23,7 +23,7 @@ class TestAddDPNoise:
         epsilon = 100.0
         noisy = add_dp_noise(values, epsilon=epsilon)
 
-        for original, noised in zip(values, noisy):
+        for original, noised in zip(values, noisy, strict=True):
             assert abs(original - noised) < 0.5  # tight bound with large epsilon
 
     def test_add_dp_noise_small_epsilon(self) -> None:

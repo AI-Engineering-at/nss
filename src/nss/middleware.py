@@ -5,12 +5,12 @@ from __future__ import annotations
 import time
 import uuid
 from collections import defaultdict
-from typing import Any
 
 import structlog
-from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
+from starlette.types import ASGIApp
 
 logger = structlog.get_logger(__name__)
 
@@ -18,7 +18,7 @@ logger = structlog.get_logger(__name__)
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """Add security headers to all responses."""
 
-    async def dispatch(self, request: Request, call_next: Any) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
@@ -31,23 +31,23 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 class TracingMiddleware(BaseHTTPMiddleware):
     """Generate and propagate X-Trace-ID for distributed tracing."""
 
-    async def dispatch(self, request: Request, call_next: Any) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         trace_id = request.headers.get("X-Trace-ID", str(uuid.uuid4()))
         request.state.trace_id = trace_id
-        
+
         # Bind trace_id to structlog context for this request
         structlog.contextvars.bind_contextvars(trace_id=trace_id)
-        
+
         response = await call_next(request)
         response.headers["X-Trace-ID"] = trace_id
-        
+
         structlog.contextvars.unbind_contextvars("trace_id")
         return response
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Sliding-window rate limiter per client IP.
-    
+
     Args:
         app: The ASGI application.
         max_requests: Maximum requests per window.
@@ -56,7 +56,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
     def __init__(
         self,
-        app: Any,
+        app: ASGIApp,
         max_requests: int = 100,
         window_seconds: int = 60,
     ) -> None:
@@ -69,21 +69,21 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         cutoff = time.time() - self._window_seconds
         return [t for t in timestamps if t > cutoff]
 
-    async def dispatch(self, request: Request, call_next: Any) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         # Skip rate limiting for health checks
         if request.url.path in ("/health", "/metrics"):
             return await call_next(request)
-        
+
         client_ip = request.client.host if request.client else "unknown"
-        
+
         self._requests[client_ip] = self._prune(self._requests[client_ip])
-        
+
         if len(self._requests[client_ip]) >= self._max_requests:
             logger.warning("rate_limit_exceeded", client_ip=client_ip)
             return JSONResponse(
                 status_code=429,
                 content={"detail": "Rate limit exceeded. Try again later."},
             )
-        
+
         self._requests[client_ip].append(time.time())
         return await call_next(request)

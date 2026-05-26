@@ -7,14 +7,11 @@ endpoint round-trips, trace-ID propagation, and audit logging.
 
 from __future__ import annotations
 
-from typing import Any
-
 import pytest
-from httpx import ASGITransport, AsyncClient
 
 from nss.auth import create_token
-from nss.guardian.server import app as guardian_app
 from nss.governance.server import app as governance_app
+from nss.guardian.server import app as guardian_app
 from nss.metrics_server import app as metrics_app
 
 _JWT_SECRET = "change-me-in-production"

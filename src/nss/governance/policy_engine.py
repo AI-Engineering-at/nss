@@ -40,7 +40,7 @@ _DEFAULT_POLICIES: dict[str, Any] = {
 
 class PolicyEngine:
     """Evaluate governance policies against request context.
-    
+
     Args:
         policies: Custom policy dict. Uses defaults if not provided.
     """
@@ -51,17 +51,17 @@ class PolicyEngine:
 
     def evaluate(self, context: dict[str, Any]) -> PolicyDecision:
         """Evaluate all policies against the given context.
-        
+
         Args:
             context: Dict with keys like 'role', 'risk_tier', 'pii_detected',
                      'tool_name', 'privacy_tier'.
-                     
+
         Returns:
             PolicyDecision with allowed/violations.
         """
         violations: list[str] = []
         role = context.get("role", "viewer")
-        
+
         # Check risk tier
         risk_tier = context.get("risk_tier")
         if risk_tier is not None:
@@ -71,7 +71,7 @@ class PolicyEngine:
                     f"Role '{role}' cannot handle risk tier {risk_tier} "
                     f"(maximum allowed: {max_tier})."
                 )
-        
+
         # Check PII privacy tier
         pii_detected = context.get("pii_detected", False)
         privacy_tier = context.get("privacy_tier", 0)
@@ -80,7 +80,7 @@ class PolicyEngine:
             violations.append(
                 f"PII detected but privacy tier {privacy_tier} < required {min_tier}."
             )
-        
+
         # Check tool access
         tool_name = context.get("tool_name")
         if tool_name:
@@ -89,12 +89,12 @@ class PolicyEngine:
                 violations.append(
                     f"Role '{role}' not authorized for tool '{tool_name}'."
                 )
-        
+
         allowed = len(violations) == 0
-        
+
         if not allowed:
             logger.warning("policy_violation", role=role, violations=violations)
-        
+
         return PolicyDecision(
             allowed=allowed,
             violations=violations,

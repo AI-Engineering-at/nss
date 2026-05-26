@@ -6,6 +6,7 @@ for the microservice architecture.
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -16,13 +17,13 @@ from pydantic import BaseModel
 
 from nss.auth import JWTMiddleware
 from nss.config import config
-from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.guardian.apex import APEXRouter
-from nss.guardian.mars import MARSScorer, classify_tier
+from nss.guardian.mars import MARSScorer
 from nss.guardian.sentinel import SentinelDefense
 from nss.guardian.shield import enhance_prompt
 from nss.guardian.vigil import check_tool_call
 from nss.llm.ollama_client import OllamaClient
+from nss.middleware import SecurityHeadersMiddleware, TracingMiddleware
 from nss.models import APEXDecision, RiskScore, SentinelResult
 
 logger = structlog.get_logger(__name__)
@@ -64,7 +65,7 @@ _apex_router: APEXRouter | None = None
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     global _ollama_client, _mars_scorer, _sentinel, _apex_router
     _ollama_client = OllamaClient(
         base_url=config.ollama_base_url,

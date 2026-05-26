@@ -1,8 +1,6 @@
 """Async tests for the SENTINEL injection-defence system."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
-
-import pytest
+from unittest.mock import patch
 
 from nss.guardian.sentinel import SentinelDefense
 from nss.models import SentinelResult

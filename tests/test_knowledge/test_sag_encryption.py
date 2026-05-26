@@ -82,7 +82,7 @@ class TestSAGEncryptor:
         enc2 = SAGEncryptor(hex_key=key2)
 
         encrypted = enc1.encrypt_payload({"secret": "data"})
-        with pytest.raises(Exception):
+        with pytest.raises(Exception):  # noqa: B017 — SAG decrypt raises various low-level crypto errors; broad catch is intentional
             enc2.decrypt_payload(encrypted)
 
     def test_empty_payload(self):

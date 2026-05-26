@@ -1,6 +1,6 @@
 """Tests for PNC compression."""
 
-from nss.gateway.pnc_compression import compress, _deduplicate_phrases, _remove_fillers
+from nss.gateway.pnc_compression import _deduplicate_phrases, _remove_fillers, compress
 
 
 def test_deduplicate_removes_repeated_sentences() -> None:

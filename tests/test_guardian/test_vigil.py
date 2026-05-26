@@ -1,6 +1,6 @@
 """Tests for VIGIL tool call safety."""
 
-from nss.guardian.vigil import check_tool_call, ALLOWED_TOOLS
+from nss.guardian.vigil import check_tool_call
 
 
 def test_allowed_tool_passes() -> None:

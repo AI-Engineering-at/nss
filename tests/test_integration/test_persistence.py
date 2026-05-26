@@ -11,7 +11,6 @@ from __future__ import annotations
 from nss.audit import AuditLogger
 from nss.governance.privacy_budget import PrivacyBudgetTracker
 
-
 # ---------------------------------------------------------------------------
 # AuditLogger persistence tests
 # ---------------------------------------------------------------------------

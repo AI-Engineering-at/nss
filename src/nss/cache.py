@@ -17,7 +17,7 @@ logger = structlog.get_logger(__name__)
 
 class CacheLayer:
     """Async Redis cache wrapper with graceful degradation.
-    
+
     Args:
         redis_url: Redis connection URL.
         key_prefix: Prefix for all cache keys.
@@ -34,7 +34,10 @@ class CacheLayer:
         try:
             import redis.asyncio as aioredis
             self._client = aioredis.from_url(self._redis_url, decode_responses=True)
-            await self._client.ping()
+            # redis-py async client returns Awaitable[bool] | bool; cast to satisfy mypy.
+            ping_result = self._client.ping()
+            if hasattr(ping_result, "__await__"):
+                await ping_result
             self._available = True
             logger.info("cache_connected", url=self._redis_url)
         except Exception:
@@ -49,7 +52,7 @@ class CacheLayer:
 
     async def get(self, layer: str, identifier: str) -> Any | None:
         """Retrieve a cached value.
-        
+
         Returns None on cache miss or if Redis is unavailable.
         """
         if not self._available or not self._client:

@@ -112,7 +112,7 @@ async def dpsparsevote_rag(
     noisy_scores = add_dp_noise(scores, epsilon_per_query)
 
     ranked = sorted(
-        zip(candidates, noisy_scores),
+        zip(candidates, noisy_scores, strict=True),
         key=lambda pair: pair[1],
         reverse=True,
     )

@@ -2,11 +2,10 @@
 
 import time
 
-import pytest
 import jwt as pyjwt
+import pytest
 
-from nss.auth import create_token, verify_token, Role
-
+from nss.auth import Role, create_token, verify_token
 
 _TEST_SECRET = "test-secret-key-for-testing"
 

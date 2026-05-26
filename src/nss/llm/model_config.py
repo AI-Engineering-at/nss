@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 
-class ModelTier(str, Enum):
+class ModelTier(StrEnum):
     """Available model performance tiers."""
 
     SMALL = "small"

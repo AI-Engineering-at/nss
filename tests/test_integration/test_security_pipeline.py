@@ -10,14 +10,11 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from nss.auth import create_token, verify_token, Role
+from nss.auth import create_token, verify_token
 from nss.gateway.pii_redaction import redact_pii
 from nss.guardian.sentinel import SentinelDefense
-from nss.guardian.shield import enhance_prompt, PREPEND_TOKENS
+from nss.guardian.shield import PREPEND_TOKENS, enhance_prompt
 from nss.guardian.vigil import check_tool_call
-from nss.middleware import RateLimitMiddleware
-from nss.models import SentinelResult
-
 
 # ---------------------------------------------------------------------------
 # Helpers

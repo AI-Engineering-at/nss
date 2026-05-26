@@ -8,8 +8,10 @@ a WASM runtime.
 from __future__ import annotations
 
 import time
-from concurrent.futures import ProcessPoolExecutor, TimeoutError as FuturesTimeoutError
-from typing import Any, Callable
+from collections.abc import Callable
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import TimeoutError as FuturesTimeoutError
+from typing import Any
 
 import structlog
 
@@ -26,10 +28,10 @@ def _execute_in_sandbox(func: Callable[..., str], args: dict[str, Any]) -> str:
 
 class ToolSandbox:
     """Sandboxed tool execution environment.
-    
+
     Validates tool calls via VIGIL before execution and enforces
     timeouts via process isolation.
-    
+
     Args:
         max_workers: Maximum concurrent tool executions.
         default_timeout: Default timeout in seconds per tool call.
@@ -46,7 +48,7 @@ class ToolSandbox:
 
     def register_tool(self, name: str, func: Callable[..., str]) -> None:
         """Register a tool function.
-        
+
         Args:
             name: Tool name (must match VIGIL allow-list).
             func: Callable that takes keyword args and returns a string.
@@ -61,25 +63,25 @@ class ToolSandbox:
         timeout: float | None = None,
     ) -> ToolResult:
         """Execute a tool in the sandbox.
-        
+
         Steps:
             1. VIGIL safety check (CIA validation).
             2. Verify tool is registered.
             3. Execute in ProcessPoolExecutor with timeout.
             4. Return ToolResult with execution metadata.
-        
+
         Args:
             tool_name: Name of the registered tool.
             args: Arguments to pass to the tool.
             user_id: Requesting user's identifier.
             timeout: Override default timeout.
-            
+
         Returns:
             ToolResult with output and metadata.
         """
         effective_timeout = timeout or self._default_timeout
         start_time = time.monotonic()
-        
+
         # Step 1: VIGIL safety check
         vigil_result = check_tool_call(tool_name, args, user_id)
         if vigil_result["verdict"] == "DENY":
@@ -89,7 +91,7 @@ class ToolSandbox:
                 sandbox_metadata={"vigil_reasons": vigil_result["reasons"]},
                 vigil_verdict="DENY",
             )
-        
+
         # Step 2: Check registry
         if tool_name not in self._registry:
             return ToolResult(
@@ -98,7 +100,7 @@ class ToolSandbox:
                 sandbox_metadata={"error": f"Tool '{tool_name}' not registered."},
                 vigil_verdict="ALLOW",
             )
-        
+
         # Step 3: Execute in sandbox
         func = self._registry[tool_name]
         try:
@@ -123,10 +125,10 @@ class ToolSandbox:
                 sandbox_metadata={"error": str(exc)},
                 vigil_verdict="ALLOW",
             )
-        
+
         elapsed = (time.monotonic() - start_time) * 1000
         logger.info("tool_executed", tool=tool_name, elapsed_ms=round(elapsed, 2))
-        
+
         return ToolResult(
             output=str(output),
             execution_time_ms=elapsed,

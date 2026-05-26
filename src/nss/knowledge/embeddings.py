@@ -50,7 +50,8 @@ class EmbeddingService:
         """
         model = self._load_model()
         embedding = model.encode(text, convert_to_numpy=True)
-        return embedding.tolist()  # type: ignore[union-attr]
+        result: list[float] = embedding.tolist()
+        return result
 
     def embed_batch(self, texts: list[str]) -> list[list[float]]:
         """Embed a batch of text strings.
@@ -63,4 +64,5 @@ class EmbeddingService:
         """
         model = self._load_model()
         embeddings = model.encode(texts, convert_to_numpy=True)
-        return [e.tolist() for e in embeddings]  # type: ignore[union-attr]
+        result: list[list[float]] = [e.tolist() for e in embeddings]
+        return result

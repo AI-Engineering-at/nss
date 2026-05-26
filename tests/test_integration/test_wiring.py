@@ -18,22 +18,16 @@ from nss.cache import CacheLayer
 from nss.gateway.pii_redaction import redact_pii
 from nss.gateway.pnc_compression import compress
 from nss.gateway.steer import steer_transform
-from nss.guardian.shield import enhance_prompt
-from nss.metrics import (
-    Counter,
-    Histogram,
-    nss_guardian_latency,
-    nss_pii_entities_redacted,
-    nss_request_latency,
-    nss_requests_blocked,
-    nss_requests_total,
-)
+from nss.governance.server import app as governance_app
 
 # Import all 4 server apps for middleware checks
 from nss.guardian.server import app as guardian_app
-from nss.governance.server import app as governance_app
+from nss.guardian.shield import enhance_prompt
+from nss.metrics import (
+    nss_guardian_latency,
+    nss_requests_total,
+)
 from nss.metrics_server import app as metrics_app
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
